@@ -1,0 +1,36 @@
+id: ces.doc.status
+canonical: http://va.gov/fhir/ces-doc-status
+name: CESDocStatusIG
+title: CES DocumentReference docStatus Constraints
+description: Constrains DocumentReference.docStatus for notes served by CES from VistA TIU, carries the source TIU status, and documents which TIU statuses are not available.
+status: draft
+version: 0.1.0
+fhirVersion: 4.0.1
+copyrightYear: 2026+
+releaseLabel: ci-build
+license: CC0-1.0
+jurisdiction: urn:iso:std:iso:3166#US "United States of America"
+publisher:
+  name: Jay Lyle
+  email: jaylyle@gmail.com
+
+dependencies:
+  hl7.fhir.us.core: 6.1.0
+  hl7.fhir.uv.extensions.r4: 5.3.0
+
+parameters:
+  show-inherited-invariants: false
+
+pages:
+  index.md:
+    title: Home
+  design.md:
+    title: Design
+  open-issues.md:
+    title: Open Issues
+
+menu:
+  Home: index.html
+  Design: design.html
+  Open Issues: open-issues.html
+  Artifacts: artifacts.html

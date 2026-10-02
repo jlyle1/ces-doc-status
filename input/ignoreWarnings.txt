@@ -1,0 +1,3 @@
+== Suppressed Messages ==
+
+# Add warning and information messages that can be ignored, one per line, exactly as the IG Publisher reports them.
