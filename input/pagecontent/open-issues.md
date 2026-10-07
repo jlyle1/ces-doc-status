@@ -6,9 +6,9 @@ CES reports returning documents with a TIU status of SIGNED. VistA's TIU STATUS 
 
 The code system holds all 14 entries in the TIU STATUS file (#8925.6). The availability ConceptMap marks 3 as matched (UNSIGNED, UNCOSIGNED, COMPLETED) and 11 as `unmatched`. TEST, ACTIVE and INACTIVE apply to document titles (#8925.1 field .07, screened to statuses appropriate for document definitions), not to document instances, so they are not expected on notes at all. A separate semantic ConceptMap covering the document statuses (for example AMENDED → amended, RETRACTED → entered-in-error) could be added. It would be informative and unbound.
 
-### Amended notes are excluded
+### Excluded statuses
 
-A COMPLETED note that is later amended moves to AMENDED. Because CES serves only UNSIGNED, UNCOSIGNED and COMPLETED, amended notes, which are signed and finalized, are not available. Confirm whether this is intended.
+The CES service only provides 3 of 11 status values. It's clear that an "undictated" or "untranscribed" note may be useless in a document API, but "amended" seems to be a clear gap for most use cases.  This may be exactly what is required for the (unspecified) use case, but it is likely to cause confusion unless clearly indicated.
 
 ### tiuDocumentStatus
 

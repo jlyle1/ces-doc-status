@@ -1,4 +1,4 @@
-### Three artifacts, three jobs
+### Artifact design responsibilities
 
 The design separates what constrains instances from what explains them.
 
