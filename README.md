@@ -12,3 +12,4 @@ Build with SUSHI (`sushi build .`) and then the IG Publisher. To check the invar
 
     java -jar validator_cli.jar -version 4.0.1 -ig fsh-generated/resources -ig hl7.fhir.us.core#6.1.0 input/tests/*.json
 
+Pages build: https://jlyle1.github.io/ces-doc-status/
