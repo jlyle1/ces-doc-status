@@ -9,10 +9,10 @@ CodeSystem: VistATIUStatus
 Id: vista-tiu-status
 Title: "VistA TIU Status"
 Description: """
-Status values for VistA TIU documents (TIU STATUS file, #8925.6), as used by CES.
+Status values for VistA TIU documents (TIU STATUS file, #8925.6), as served by Lighthouse.
 All 14 entries in the TIU STATUS file (^TIU(8925.6)), as listed on VIVIAN. Code = .01 NAME; the IEN is
-noted in each definition. CES reports COMPLETED as SIGNED, which is not a VistA TIU
-status; SIGNED is defined in the CES TIU Status code system instead.
+noted in each definition. CES, the upstream service, labels COMPLETED as SIGNED; Lighthouse
+reports COMPLETED. See the Upstream: CES page.
 """
 * ^status = #draft
 * ^experimental = false
@@ -34,20 +34,20 @@ status; SIGNED is defined in the CES TIU Status code system instead.
 * #RETRACTED "Retracted" "IEN 15. Document has been retracted."
 
 
-ValueSet: CESDocStatus
-Id: ces-doc-status
-Title: "CES DocumentReference docStatus"
-Description: "The docStatus values CES returns: preliminary (unsigned or uncosigned notes) and final (completed notes)."
+ValueSet: LighthouseDocStatus
+Id: lighthouse-doc-status
+Title: "Lighthouse DocumentReference docStatus"
+Description: "The docStatus values Lighthouse returns for CES-provided TIU notes: preliminary (unsigned or uncosigned notes) and final (completed notes)."
 * ^status = #draft
 * ^experimental = false
 * $compStatus#preliminary
 * $compStatus#final
 
 
-ValueSet: CESServedTIUStatus
-Id: ces-served-tiu-status
-Title: "VistA TIU Status Values Served by CES"
-Description: "The VistA TIU status values for which CES returns documents. Binds the optional VistA coding on docStatus. All other TIU statuses are excluded; see the TIU-to-docStatus ConceptMap. CES reports COMPLETED as SIGNED; see CES TIU Status."
+ValueSet: LighthouseServedTIUStatus
+Id: lighthouse-served-tiu-status
+Title: "VistA TIU Status Values Served by Lighthouse"
+Description: "The VistA TIU status values for which Lighthouse returns documents. All other TIU statuses are excluded; see the TIU-to-docStatus ConceptMap."
 * ^status = #draft
 * ^experimental = false
 * VistATIUStatus#UNSIGNED
@@ -58,20 +58,20 @@ Description: "The VistA TIU status values for which CES returns documents. Binds
 Instance: tiu-status-to-docstatus-completed-unsigned-uncosigned
 InstanceOf: ConceptMap
 Usage: #definition
-Title: "VistA TIU Status to docStatus for CES: Completed, Unsigned, Uncosigned (informative)"
+Title: "VistA TIU Status to docStatus for Lighthouse: Completed, Unsigned, Uncosigned (informative)"
 Description: """
-INFORMATIVE. Documents how VistA TIU statuses relate to DocumentReference.docStatus as served by CES,
+INFORMATIVE. Documents how VistA TIU statuses relate to DocumentReference.docStatus as served by Lighthouse,
 and makes the eleven excluded statuses explicit (equivalence = unmatched). This map does not constrain
 instances: the profile's bindings and invariants do. It exists to explain data availability.
 """
 * url = "http://va.gov/fhir/ces-doc-status/ConceptMap/tiu-status-to-docstatus-completed-unsigned-uncosigned"
 * name = "TIUStatusToDocStatusCompletedUnsignedUncosigned"
-* title = "VistA TIU Status to docStatus for CES: Completed, Unsigned, Uncosigned (informative)"
+* title = "VistA TIU Status to docStatus for Lighthouse: Completed, Unsigned, Uncosigned (informative)"
 * status = #draft
 * experimental = false
-* purpose = "Explains which VistA TIU statuses appear in CES responses, and as which docStatus. Informative only."
+* purpose = "Explains which VistA TIU statuses appear in Lighthouse responses, and as which docStatus. Informative only."
 * sourceCanonical = Canonical(VistATIUStatusAll)
-* targetCanonical = Canonical(CESDocStatus)
+* targetCanonical = Canonical(LighthouseDocStatus)
 * group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status"
 * group[0].target = "http://hl7.org/fhir/composition-status"
 
@@ -95,63 +95,62 @@ instances: the profile's bindings and invariants do. It exists to explain data a
 * group[0].element[2].target[0].code = #final
 * group[0].element[2].target[0].display = "Final"
 * group[0].element[2].target[0].equivalence = #equivalent
-* group[0].element[2].target[0].comment = "CES reports this status as SIGNED (CES TIU Status code system)."
 
 // Explicitly not served
 * group[0].element[3].code = #UNDICTATED
 * group[0].element[3].display = "Undictated"
 * group[0].element[3].target[0].equivalence = #unmatched
-* group[0].element[3].target[0].comment = "Not returned by CES."
+* group[0].element[3].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[4].code = #UNVERIFIED
 * group[0].element[4].display = "Unverified"
 * group[0].element[4].target[0].equivalence = #unmatched
-* group[0].element[4].target[0].comment = "Not returned by CES."
+* group[0].element[4].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[5].code = #UNRELEASED
 * group[0].element[5].display = "Unreleased"
 * group[0].element[5].target[0].equivalence = #unmatched
-* group[0].element[5].target[0].comment = "Not returned by CES."
+* group[0].element[5].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[6].code = #UNTRANSCRIBED
 * group[0].element[6].display = "Untranscribed"
 * group[0].element[6].target[0].equivalence = #unmatched
-* group[0].element[6].target[0].comment = "Not returned by CES."
+* group[0].element[6].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[7].code = #AMENDED
 * group[0].element[7].display = "Amended"
 * group[0].element[7].target[0].equivalence = #unmatched
-* group[0].element[7].target[0].comment = "Not returned by CES."
+* group[0].element[7].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[8].code = #DELETED
 * group[0].element[8].display = "Deleted"
 * group[0].element[8].target[0].equivalence = #unmatched
-* group[0].element[8].target[0].comment = "Not returned by CES."
+* group[0].element[8].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[9].code = #RETRACTED
 * group[0].element[9].display = "Retracted"
 * group[0].element[9].target[0].equivalence = #unmatched
-* group[0].element[9].target[0].comment = "Not returned by CES."
+* group[0].element[9].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[10].code = #ACTIVE
 * group[0].element[10].display = "Active"
 * group[0].element[10].target[0].equivalence = #unmatched
-* group[0].element[10].target[0].comment = "Not returned by CES. Concept applies to document title (#8925.1), not document instance."
+* group[0].element[10].target[0].comment = "Not served by Lighthouse. Concept applies to document title (#8925.1), not document instance."
 
 * group[0].element[11].code = #PURGED
 * group[0].element[11].display = "Purged"
 * group[0].element[11].target[0].equivalence = #unmatched
-* group[0].element[11].target[0].comment = "Not returned by CES."
+* group[0].element[11].target[0].comment = "Not served by Lighthouse."
 
 * group[0].element[12].code = #TEST
 * group[0].element[12].display = "Test"
 * group[0].element[12].target[0].equivalence = #unmatched
-* group[0].element[12].target[0].comment = "Not returned by CES. Concept applies to document title (#8925.1), not document instance."
+* group[0].element[12].target[0].comment = "Not served by Lighthouse. Concept applies to document title (#8925.1), not document instance."
 
 * group[0].element[13].code = #INACTIVE
 * group[0].element[13].display = "Inactive"
 * group[0].element[13].target[0].equivalence = #unmatched
-* group[0].element[13].target[0].comment = "Not returned by CES. Concept applies to document title (#8925.1), not document instance."
+* group[0].element[13].target[0].comment = "Not served by Lighthouse. Concept applies to document title (#8925.1), not document instance."
 
 
 ValueSet: VistATIUStatusAll
@@ -164,54 +163,54 @@ Description: "All codes in the VistA TIU Status code system. Source scope of the
 
 
 // ---------------------------------------------------------------------
-// CES's own status labels. CES reports VistA COMPLETED as SIGNED; SIGNED is
-// not a VistA TIU status, so it is defined here rather than added to VistATIUStatus.
+// UPSTREAM ONLY. CES's status labels and the translation Lighthouse applies
+// to them. Nothing here appears in Lighthouse requests or responses.
 // ---------------------------------------------------------------------
 
 CodeSystem: CESTIUStatus
 Id: ces-tiu-status
-Title: "CES TIU Status"
+Title: "CES TIU Status (upstream)"
 Description: """
-TIU note status as CES reports it. CES reports the VistA TIU status COMPLETED as SIGNED, and reports
-UNSIGNED and UNCOSIGNED unchanged. These codes are CES's labels, not VistA's: SIGNED does not appear in
-the TIU STATUS file (#8925.6). The ConceptMap VistA TIU Status to CES TIU Status states the correspondence.
+INFORMATIVE, UPSTREAM ONLY. The TIU status labels CES uses in its responses and in its tiuDocumentStatus search
+parameter. CES labels the VistA TIU status COMPLETED as SIGNED, and passes UNSIGNED and UNCOSIGNED unchanged.
+Lighthouse translates these to VistA TIU Status; they never appear in Lighthouse requests or responses.
 """
 * ^status = #draft
 * ^experimental = false
 * ^caseSensitive = true
 * ^content = #complete
-* #UNSIGNED "Unsigned" "Document is awaiting the author's signature. Same meaning as VistA TIU status UNSIGNED (IEN 5)."
-* #UNCOSIGNED "Uncosigned" "Document is signed by the author and awaiting cosignature. Same meaning as VistA TIU status UNCOSIGNED (IEN 6)."
-* #SIGNED "Signed" "Document is signed (and cosigned, if required). CES's label for VistA TIU status COMPLETED (IEN 7); the meaning is unchanged."
+* #UNSIGNED "Unsigned" "VistA TIU status UNSIGNED (IEN 5), unchanged."
+* #UNCOSIGNED "Uncosigned" "VistA TIU status UNCOSIGNED (IEN 6), unchanged."
+* #SIGNED "Signed" "CES's label for VistA TIU status COMPLETED (IEN 7). Same meaning."
 
 
 ValueSet: CESTIUStatusVS
 Id: ces-tiu-status
-Title: "CES TIU Status"
-Description: "All CES TIU status codes: the statuses CES reports for the notes it serves."
+Title: "CES TIU Status (upstream)"
+Description: "INFORMATIVE, UPSTREAM ONLY. All CES TIU status labels."
 * ^status = #draft
 * ^experimental = false
 * include codes from system CESTIUStatus
 
 
-Instance: vista-tiu-status-to-ces-tiu-status
+Instance: ces-tiu-status-to-vista-tiu-status
 InstanceOf: ConceptMap
 Usage: #definition
-Title: "VistA TIU Status to CES TIU Status"
+Title: "CES TIU Status to VistA TIU Status (upstream translation)"
 Description: """
-How the VistA TIU statuses CES serves are labeled in CES responses. COMPLETED is relabeled SIGNED with no
-change in meaning. Statuses CES does not serve are listed in the TIU-to-docStatus ConceptMap.
+INFORMATIVE, UPSTREAM ONLY. The translation Lighthouse applies to statuses in CES responses: SIGNED becomes
+COMPLETED; UNSIGNED and UNCOSIGNED are unchanged. Lighthouse applies the reverse when it builds a CES request.
 """
-* url = "http://va.gov/fhir/ces-doc-status/ConceptMap/vista-tiu-status-to-ces-tiu-status"
-* name = "VistATIUStatusToCESTIUStatus"
-* title = "VistA TIU Status to CES TIU Status"
+* url = "http://va.gov/fhir/ces-doc-status/ConceptMap/ces-tiu-status-to-vista-tiu-status"
+* name = "CESTIUStatusToVistATIUStatus"
+* title = "CES TIU Status to VistA TIU Status (upstream translation)"
 * status = #draft
 * experimental = false
-* purpose = "Lets the CES specification use SIGNED without misrepresenting the VistA value it stands for."
-* sourceCanonical = Canonical(CESServedTIUStatus)
-* targetCanonical = Canonical(CESTIUStatusVS)
-* group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status"
-* group[0].target = "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status"
+* purpose = "Lets Lighthouse report VistA values without depending on the labels CES uses for them."
+* sourceCanonical = Canonical(CESTIUStatusVS)
+* targetCanonical = Canonical(LighthouseServedTIUStatus)
+* group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status"
+* group[0].target = "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status"
 * group[0].element[0].code = #UNSIGNED
 * group[0].element[0].display = "Unsigned"
 * group[0].element[0].target[0].code = #UNSIGNED
@@ -222,9 +221,9 @@ change in meaning. Statuses CES does not serve are listed in the TIU-to-docStatu
 * group[0].element[1].target[0].code = #UNCOSIGNED
 * group[0].element[1].target[0].display = "Uncosigned"
 * group[0].element[1].target[0].equivalence = #equal
-* group[0].element[2].code = #COMPLETED
-* group[0].element[2].display = "Completed"
-* group[0].element[2].target[0].code = #SIGNED
-* group[0].element[2].target[0].display = "Signed"
+* group[0].element[2].code = #SIGNED
+* group[0].element[2].display = "Signed"
+* group[0].element[2].target[0].code = #COMPLETED
+* group[0].element[2].target[0].display = "Completed"
 * group[0].element[2].target[0].equivalence = #equivalent
-* group[0].element[2].target[0].comment = "Same meaning, different label. CES reports COMPLETED as SIGNED."
+* group[0].element[2].target[0].comment = "Same meaning, different label."

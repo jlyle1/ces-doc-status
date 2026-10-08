@@ -3,7 +3,7 @@
   "id": "invalid-docref-unsigned-final",
   "meta": {
     "profile": [
-      "http://va.gov/fhir/ces-doc-status/StructureDefinition/vista-docref-unsigned-uncosigned-completed"
+      "http://va.gov/fhir/ces-doc-status/StructureDefinition/lighthouse-ces-docref"
     ]
   },
   "status": "current",
@@ -48,7 +48,7 @@
           "coding": [
             {
               "code": "UNSIGNED",
-              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status",
+              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status",
               "display": "Unsigned"
             }
           ]

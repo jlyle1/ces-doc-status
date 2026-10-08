@@ -3,7 +3,7 @@
   "id": "invalid-docref-completed-preliminary",
   "meta": {
     "profile": [
-      "http://va.gov/fhir/ces-doc-status/StructureDefinition/vista-docref-unsigned-uncosigned-completed"
+      "http://va.gov/fhir/ces-doc-status/StructureDefinition/lighthouse-ces-docref"
     ]
   },
   "status": "current",
@@ -46,11 +46,6 @@
         "url": "http://hl7.org/fhir/StructureDefinition/alternate-codes",
         "valueCodeableConcept": {
           "coding": [
-            {
-              "code": "SIGNED",
-              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status",
-              "display": "Signed"
-            },
             {
               "code": "COMPLETED",
               "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status",

@@ -1,8 +1,8 @@
 id: ces.doc.status
 canonical: http://va.gov/fhir/ces-doc-status
-name: CESDocStatusIG
-title: CES DocumentReference docStatus Constraints
-description: Constrains DocumentReference.docStatus for notes served by CES from VistA TIU, carries the source TIU status, and documents which TIU statuses are not available.
+name: LighthouseCESDocStatusIG
+title: Lighthouse DocumentReference Status for CES-Provided TIU Notes
+description: Lighthouse's contract for DocumentReferences of VistA TIU notes obtained from CES - docStatus, the VistA TIU status, status search and error responses - plus an informative description of the CES interface.
 status: draft
 version: 0.1.0
 fhirVersion: 4.0.1
@@ -26,11 +26,14 @@ pages:
     title: Home
   design.md:
     title: Design
+  upstream-ces.md:
+    title: "Upstream: CES"
   open-issues.md:
     title: Open Issues
 
 menu:
   Home: index.html
   Design: design.html
+  "Upstream: CES": upstream-ces.html
   Open Issues: open-issues.html
   Artifacts: artifacts.html

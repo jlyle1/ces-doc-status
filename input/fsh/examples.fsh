@@ -29,31 +29,30 @@ RuleSet: ProgressNoteBase
 
 
 Instance: example-docref-unsigned
-InstanceOf: VistADocRefUnsignedUncosignedCompleted
+InstanceOf: LighthouseCESDocumentReference
 Usage: #example
 Title: "Unsigned TIU note (preliminary)"
 Description: "TIU status UNSIGNED, served as docStatus preliminary."
 * insert ProgressNoteBase
 * docStatus = #preliminary
-* docStatus.extension[tiuStatus].valueCodeableConcept.coding[ces] = CESTIUStatus#UNSIGNED "Unsigned"
+* docStatus.extension[tiuStatus].valueCodeableConcept = VistATIUStatus#UNSIGNED "Unsigned"
 
 
 Instance: example-docref-uncosigned
-InstanceOf: VistADocRefUnsignedUncosignedCompleted
+InstanceOf: LighthouseCESDocumentReference
 Usage: #example
 Title: "Uncosigned TIU note (preliminary)"
 Description: "TIU status UNCOSIGNED, served as docStatus preliminary."
 * insert ProgressNoteBase
 * docStatus = #preliminary
-* docStatus.extension[tiuStatus].valueCodeableConcept.coding[ces] = CESTIUStatus#UNCOSIGNED "Uncosigned"
+* docStatus.extension[tiuStatus].valueCodeableConcept = VistATIUStatus#UNCOSIGNED "Uncosigned"
 
 
 Instance: example-docref-completed
-InstanceOf: VistADocRefUnsignedUncosignedCompleted
+InstanceOf: LighthouseCESDocumentReference
 Usage: #example
 Title: "Completed TIU note (final)"
-Description: "VistA TIU status COMPLETED, reported by CES as SIGNED and served as docStatus final. Carries both codings."
+Description: "TIU status COMPLETED, served as docStatus final."
 * insert ProgressNoteBase
 * docStatus = #final
-* docStatus.extension[tiuStatus].valueCodeableConcept.coding[ces] = CESTIUStatus#SIGNED "Signed"
-* docStatus.extension[tiuStatus].valueCodeableConcept.coding[vista] = VistATIUStatus#COMPLETED "Completed"
+* docStatus.extension[tiuStatus].valueCodeableConcept = VistATIUStatus#COMPLETED "Completed"
