@@ -24,7 +24,23 @@ alternate-codes is a simple extension with a CodeableConcept value, so the expre
 
 ### Excluded statuses at runtime
 
-A search for a status CES does not serve returns an empty Bundle, not an error. The CapabilityStatement documents this. An OperationOutcome is not used to carry the exclusion, because no error condition arises and a notice would have to accompany every response.
+The response depends on whether the client asked about a status.
+
+| Request | Response |
+|---|---|
+| Search with no status filter | 200, in-scope notes only, no OperationOutcome |
+| `tiu-status=AMENDED` (any unserved TIU status, or `doc-status=amended`) | 400, OperationOutcome `not-supported` ([example](OperationOutcome-tiu-status-amended-not-supported.html)) |
+| `tiu-status=COMPLETED,AMENDED` | 400 for the whole request, naming only `AMENDED` ([example](OperationOutcome-tiu-status-mixed-not-supported.html)) |
+| `tiu-status=SIGNED` (not a TIU status code) | 400, OperationOutcome `code-invalid` ([example](OperationOutcome-tiu-status-unknown-code.html)) |
+| Read of an out-of-scope note by id | 404 |
+
+**A filtered search gets an explicit answer.** A client that names a status is asking about documents in that status. An empty Bundle would tell it there are none, which is false: they may exist in VistA, and this API does not search for or return them. A 400 says the question can't be answered here. A mixed list is rejected as a whole for the same reason; returning only the served values would imply the rest are known not to exist.
+
+**An unfiltered search does not.** It asks for no status in particular, so the standing scope rule, stated once in the CapabilityStatement, is sufficient. Attaching an OperationOutcome to every response would be noise that clients learn to ignore. `206 Partial Content` is not used: it belongs to HTTP range requests and does not mean "some records are out of scope."
+
+**`not-supported` vs `code-invalid`.** A real TIU status that CES does not serve is `not-supported`; a value outside the code system is `code-invalid`. Each carries a code from [CES Search Error Codes](CodeSystem-ces-search-error.html) in `details.coding`, so clients can branch without parsing text. `Prefer: handling` does not change any of these responses: it governs unknown parameters, and these parameters are known.
+
+**Reads return 404,** consistent with search: an out-of-scope note is not a resource this API exposes, and 403 would wrongly suggest that different credentials could retrieve it.
 
 ### Testing
 
