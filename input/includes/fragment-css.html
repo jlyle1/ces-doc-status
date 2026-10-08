@@ -1,0 +1,19 @@
+<!-- DRAFT watermark on every page. Remove this file (or its contents) to drop the watermark. -->
+<style>
+  body::after {
+    content: "DRAFT";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font: bold 14vw/1 sans-serif;
+    letter-spacing: 0.1em;
+    color: rgba(200, 0, 0, 0.08);
+    pointer-events: none;
+    z-index: 9999;
+    white-space: nowrap;
+  }
+  @media print {
+    body::after { color: rgba(200, 0, 0, 0.12); }
+  }
+</style>
