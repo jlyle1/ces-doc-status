@@ -1,6 +1,6 @@
 {
   "resourceType": "DocumentReference",
-  "id": "invalid-docref-completed-preliminary",
+  "id": "invalid-docref-vista-ces-mismatch",
   "meta": {
     "profile": [
       "http://va.gov/fhir/ces-doc-status/StructureDefinition/vista-docref-unsigned-uncosigned-completed"
@@ -39,7 +39,7 @@
       }
     }
   ],
-  "docStatus": "preliminary",
+  "docStatus": "final",
   "_docStatus": {
     "extension": [
       {
@@ -52,9 +52,9 @@
               "display": "Signed"
             },
             {
-              "code": "COMPLETED",
+              "code": "UNSIGNED",
               "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status",
-              "display": "Completed"
+              "display": "Unsigned"
             }
           ]
         }

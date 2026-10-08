@@ -48,7 +48,7 @@
           "coding": [
             {
               "code": "UNSIGNED",
-              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status",
+              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status",
               "display": "Unsigned"
             }
           ]

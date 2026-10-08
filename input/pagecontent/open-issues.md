@@ -1,6 +1,10 @@
 ### SIGNED vs COMPLETED
 
-CES reports returning documents with a TIU status of SIGNED. VistA's TIU STATUS file (#8925.6) has no SIGNED status; the corresponding value is COMPLETED. This guide uses COMPLETED. It needs to be confirmed where SIGNED is produced, and whether CES should emit COMPLETED in the alternate-codes extension.
+CES reports VistA's COMPLETED status as SIGNED. The guide now defines SIGNED in a separate CES TIU Status code system and maps it to COMPLETED (see [Design](design.html#signed-and-completed)). Still to confirm:
+
+- Whether CES will emit the CES TIU Status system URI on its coding, or only a bare code. A bare code satisfies neither the binding nor the slice discriminator.
+- Whether CES can also emit the VistA coding. It is optional, but it is the only way a client sees the source value directly.
+- Whether CES accepts `tiuDocumentStatus=COMPLETED` as a synonym for SIGNED, as the CapabilityStatement now says.
 
 ### TIU status coverage
 
@@ -20,7 +24,7 @@ If CES populates `DocumentReference.relatesTo` (for example, an addendum whose p
 
 ### tiuDocumentStatus
 
-CES currently filters on an undeclared `tiuDocumentStatus` parameter. This guide replaces it with the declared `tiu-status` SearchParameter, which works against data carried in the resource. Whether CES adopts the new parameter, or keeps its own with a declared, expression-less definition, is open. The error behavior and the OperationOutcome examples are written for `tiu-status`; the same behavior applies to `tiuDocumentStatus` while CES still accepts it, with `location` set to `http.tiuDocumentStatus`.
+CES filters on a `tiuDocumentStatus` parameter that it has not formally declared. This guide declares it, under the same name, as a SearchParameter whose expression points at the CES coding carried in the resource. It is still open whether CES's implementation matches that expression: in particular, whether it searches the value it emits (SIGNED) or the VistA value (COMPLETED), and whether it will publish this SearchParameter in its CapabilityStatement.
 
 ### alternate-codes maturity
 

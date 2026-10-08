@@ -47,6 +47,11 @@
         "valueCodeableConcept": {
           "coding": [
             {
+              "code": "UNSIGNED",
+              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status",
+              "display": "Unsigned"
+            },
+            {
               "code": "UNDICTATED",
               "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status",
               "display": "Undictated"

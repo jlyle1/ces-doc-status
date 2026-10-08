@@ -22,16 +22,16 @@ Title: "DocumentReference docStatus"
 * multipleAnd = false
 
 
-Instance: DocumentReference-tiu-status
+Instance: DocumentReference-tiuDocumentStatus
 InstanceOf: SearchParameter
 Usage: #definition
 Title: "DocumentReference source VistA TIU status"
-* url = "http://va.gov/fhir/ces-doc-status/SearchParameter/DocumentReference-tiu-status"
-* name = "DocumentReferenceTIUStatus"
+* url = "http://va.gov/fhir/ces-doc-status/SearchParameter/DocumentReference-tiuDocumentStatus"
+* name = "DocumentReferenceTiuDocumentStatus"
 * status = #draft
 * experimental = false
-* description = "Search DocumentReferences by the source VistA TIU status carried in the alternate-codes extension on docStatus (e.g. UNSIGNED, UNCOSIGNED, COMPLETED). Replaces the undeclared tiuDocumentStatus parameter."
-* code = #tiu-status
+* description = "Search DocumentReferences by the TIU status carried in the alternate-codes extension on docStatus: the CES TIU status (UNSIGNED, UNCOSIGNED, SIGNED) and, when present, the VistA source status. Declares the tiuDocumentStatus parameter CES already accepts. The code keeps CES's spelling rather than the lowercase-hyphenated convention, so existing clients need no change."
+* code = #tiuDocumentStatus
 * base = #DocumentReference
 * type = #token
 * expression = "DocumentReference.docStatus.extension.where(url = 'http://hl7.org/fhir/StructureDefinition/alternate-codes').value.ofType(CodeableConcept)"
@@ -56,23 +56,24 @@ Title: "CES DocumentReference Server"
 * rest[0].mode = #server
 * rest[0].documentation = """
 CES serves DocumentReferences only for VistA TIU notes whose status is UNSIGNED, UNCOSIGNED or COMPLETED.
+CES reports COMPLETED as SIGNED (CES TIU Status code system; see ConceptMap vista-tiu-status-to-ces-tiu-status).
 Notes in the other eleven TIU statuses are outside the scope of this API and are never returned.
 See the informative ConceptMap tiu-status-to-docstatus-completed-unsigned-uncosigned.
 
 * Searches that do not filter on status return in-scope notes only: HTTP 200, with no OperationOutcome.
 The exclusion applies to every response, so it is stated here rather than in each Bundle.
-* Searches that filter on an out-of-scope status (with tiu-status or doc-status) fail with HTTP 400 and an
+* Searches that filter on an out-of-scope status (with tiuDocumentStatus or doc-status) fail with HTTP 400 and an
 OperationOutcome (issue.code not-supported, details.coding ces-search-error#status-not-served). This includes a
 comma-separated list in which any value is out of scope; the OperationOutcome names only the out-of-scope values.
 An empty Bundle is not returned, because it would imply that no such notes exist.
-* Values that are not codes in the relevant code system fail with HTTP 400 and an OperationOutcome
+* Values that are not codes in either TIU status code system (or, for doc-status, in the docStatus code system) fail with HTTP 400 and an OperationOutcome
 (issue.code code-invalid, details.coding ces-search-error#unknown-status).
 * These responses do not depend on the Prefer: handling header.
 """
 * rest[0].resource[0].type = #DocumentReference
 * rest[0].resource[0].profile = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
 * rest[0].resource[0].supportedProfile[0] = Canonical(VistADocRefUnsignedUncosignedCompleted)
-* rest[0].resource[0].documentation = "Only preliminary (UNSIGNED/UNCOSIGNED) and final (COMPLETED) documents are exposed. The source TIU status is in the alternate-codes extension on docStatus."
+* rest[0].resource[0].documentation = "Only preliminary (UNSIGNED/UNCOSIGNED) and final (SIGNED, from VistA COMPLETED) documents are exposed. The CES TIU status is in the alternate-codes extension on docStatus, optionally with the VistA source status."
 * rest[0].resource[0].interaction[0].code = #read
 * rest[0].resource[0].interaction[0].documentation = "A read of a note outside the scope of this API (any TIU status other than UNSIGNED, UNCOSIGNED or COMPLETED) returns 404 Not Found."
 * rest[0].resource[0].interaction[1].code = #search-type
@@ -83,7 +84,7 @@ An empty Bundle is not returned, because it would imply that no such notes exist
 * rest[0].resource[0].searchParam[1].definition = Canonical(DocumentReference-doc-status)
 * rest[0].resource[0].searchParam[1].type = #token
 * rest[0].resource[0].searchParam[1].documentation = "Matches preliminary and final. amended or entered-in-error returns 400 not-supported; any other value returns 400 code-invalid."
-* rest[0].resource[0].searchParam[2].name = "tiu-status"
-* rest[0].resource[0].searchParam[2].definition = Canonical(DocumentReference-tiu-status)
+* rest[0].resource[0].searchParam[2].name = "tiuDocumentStatus"
+* rest[0].resource[0].searchParam[2].definition = Canonical(DocumentReference-tiuDocumentStatus)
 * rest[0].resource[0].searchParam[2].type = #token
-* rest[0].resource[0].searchParam[2].documentation = "Codes from the VistA TIU Status code system (http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status), sent as code or system|code, e.g. COMPLETED. Codes are case-sensitive. Matches UNSIGNED, UNCOSIGNED and COMPLETED. Any other TIU status returns 400 not-supported; a value not in the code system returns 400 code-invalid."
+* rest[0].resource[0].searchParam[2].documentation = "Codes from the CES TIU Status code system (http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status), sent as code or system|code, e.g. SIGNED. Codes are case-sensitive. Matches UNSIGNED, UNCOSIGNED and SIGNED. COMPLETED, the VistA code behind SIGNED, is accepted as a synonym for SIGNED. Any other VistA TIU status returns 400 not-supported; a value in neither code system returns 400 code-invalid."

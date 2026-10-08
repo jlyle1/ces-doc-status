@@ -11,8 +11,8 @@ Title: "VistA TIU Status"
 Description: """
 Status values for VistA TIU documents (TIU STATUS file, #8925.6), as used by CES.
 All 14 entries in the TIU STATUS file (^TIU(8925.6)), as listed on VIVIAN. Code = .01 NAME; the IEN is
-noted in each definition. CES has also been reported to return the value SIGNED, which is not a VistA TIU
-status (see Open Issues).
+noted in each definition. CES reports COMPLETED as SIGNED, which is not a VistA TIU
+status; SIGNED is defined in the CES TIU Status code system instead.
 """
 * ^status = #draft
 * ^experimental = false
@@ -47,7 +47,7 @@ Description: "The docStatus values CES returns: preliminary (unsigned or uncosig
 ValueSet: CESServedTIUStatus
 Id: ces-served-tiu-status
 Title: "VistA TIU Status Values Served by CES"
-Description: "The VistA TIU status values for which CES returns documents. All other TIU statuses are excluded; see the TIU-to-docStatus ConceptMap."
+Description: "The VistA TIU status values for which CES returns documents. Binds the optional VistA coding on docStatus. All other TIU statuses are excluded; see the TIU-to-docStatus ConceptMap. CES reports COMPLETED as SIGNED; see CES TIU Status."
 * ^status = #draft
 * ^experimental = false
 * VistATIUStatus#UNSIGNED
@@ -95,6 +95,7 @@ instances: the profile's bindings and invariants do. It exists to explain data a
 * group[0].element[2].target[0].code = #final
 * group[0].element[2].target[0].display = "Final"
 * group[0].element[2].target[0].equivalence = #equivalent
+* group[0].element[2].target[0].comment = "CES reports this status as SIGNED (CES TIU Status code system)."
 
 // Explicitly not served
 * group[0].element[3].code = #UNDICTATED
@@ -160,3 +161,70 @@ Description: "All codes in the VistA TIU Status code system. Source scope of the
 * ^status = #draft
 * ^experimental = false
 * include codes from system VistATIUStatus
+
+
+// ---------------------------------------------------------------------
+// CES's own status labels. CES reports VistA COMPLETED as SIGNED; SIGNED is
+// not a VistA TIU status, so it is defined here rather than added to VistATIUStatus.
+// ---------------------------------------------------------------------
+
+CodeSystem: CESTIUStatus
+Id: ces-tiu-status
+Title: "CES TIU Status"
+Description: """
+TIU note status as CES reports it. CES reports the VistA TIU status COMPLETED as SIGNED, and reports
+UNSIGNED and UNCOSIGNED unchanged. These codes are CES's labels, not VistA's: SIGNED does not appear in
+the TIU STATUS file (#8925.6). The ConceptMap VistA TIU Status to CES TIU Status states the correspondence.
+"""
+* ^status = #draft
+* ^experimental = false
+* ^caseSensitive = true
+* ^content = #complete
+* #UNSIGNED "Unsigned" "Document is awaiting the author's signature. Same meaning as VistA TIU status UNSIGNED (IEN 5)."
+* #UNCOSIGNED "Uncosigned" "Document is signed by the author and awaiting cosignature. Same meaning as VistA TIU status UNCOSIGNED (IEN 6)."
+* #SIGNED "Signed" "Document is signed (and cosigned, if required). CES's label for VistA TIU status COMPLETED (IEN 7); the meaning is unchanged."
+
+
+ValueSet: CESTIUStatusVS
+Id: ces-tiu-status
+Title: "CES TIU Status"
+Description: "All CES TIU status codes: the statuses CES reports for the notes it serves."
+* ^status = #draft
+* ^experimental = false
+* include codes from system CESTIUStatus
+
+
+Instance: vista-tiu-status-to-ces-tiu-status
+InstanceOf: ConceptMap
+Usage: #definition
+Title: "VistA TIU Status to CES TIU Status"
+Description: """
+How the VistA TIU statuses CES serves are labeled in CES responses. COMPLETED is relabeled SIGNED with no
+change in meaning. Statuses CES does not serve are listed in the TIU-to-docStatus ConceptMap.
+"""
+* url = "http://va.gov/fhir/ces-doc-status/ConceptMap/vista-tiu-status-to-ces-tiu-status"
+* name = "VistATIUStatusToCESTIUStatus"
+* title = "VistA TIU Status to CES TIU Status"
+* status = #draft
+* experimental = false
+* purpose = "Lets the CES specification use SIGNED without misrepresenting the VistA value it stands for."
+* sourceCanonical = Canonical(CESServedTIUStatus)
+* targetCanonical = Canonical(CESTIUStatusVS)
+* group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status"
+* group[0].target = "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status"
+* group[0].element[0].code = #UNSIGNED
+* group[0].element[0].display = "Unsigned"
+* group[0].element[0].target[0].code = #UNSIGNED
+* group[0].element[0].target[0].display = "Unsigned"
+* group[0].element[0].target[0].equivalence = #equal
+* group[0].element[1].code = #UNCOSIGNED
+* group[0].element[1].display = "Uncosigned"
+* group[0].element[1].target[0].code = #UNCOSIGNED
+* group[0].element[1].target[0].display = "Uncosigned"
+* group[0].element[1].target[0].equivalence = #equal
+* group[0].element[2].code = #COMPLETED
+* group[0].element[2].display = "Completed"
+* group[0].element[2].target[0].code = #SIGNED
+* group[0].element[2].target[0].display = "Signed"
+* group[0].element[2].target[0].equivalence = #equivalent
+* group[0].element[2].target[0].comment = "Same meaning, different label. CES reports COMPLETED as SIGNED."
