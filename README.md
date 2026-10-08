@@ -6,7 +6,7 @@ and documents the excluded TIU statuses in an informative ConceptMap.
 
 - `input/fsh/`: profile, invariants, terminology, ConceptMap, SearchParameters, CapabilityStatement, examples
 - `input/pagecontent/`: Home, Design and Open Issues pages
-- `input/tests/`: three deliberately invalid instances, not built into the IG; each should fail one rule
+- `input/tests/`: four deliberately invalid instances, not built into the IG; each should fail one rule
 
 Build with SUSHI (`sushi build .`) and then the IG Publisher. To check the invariants directly:
 

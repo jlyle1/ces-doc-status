@@ -38,16 +38,7 @@ alternate-codes is a simple extension with a CodeableConcept value, so the expre
 
 ### Excluded statuses at runtime
 
-The response depends on whether the client asked about a status.
-
-| Request | Response |
-|---|---|
-| Search with no status filter | 200, in-scope notes only, no OperationOutcome |
-| `tiuDocumentStatus=SIGNED` (or `COMPLETED`, accepted as a synonym) | 200, notes reported as SIGNED |
-| `tiuDocumentStatus=AMENDED` (any unserved VistA TIU status, or `doc-status=amended`) | 400, OperationOutcome `not-supported` ([example](OperationOutcome-tiu-status-amended-not-supported.html)) |
-| `tiuDocumentStatus=SIGNED,AMENDED` | 400 for the whole request, naming only `AMENDED` ([example](OperationOutcome-tiu-status-mixed-not-supported.html)) |
-| `tiuDocumentStatus=FINAL` (in neither TIU status code system) | 400, OperationOutcome `code-invalid` ([example](OperationOutcome-tiu-status-unknown-code.html)) |
-| Read of an out-of-scope note by id | 404 |
+The response depends on whether the client asked about a status. See [Example queries](#example-queries) for each case.
 
 **A filtered search gets an explicit answer.** A client that names a status is asking about documents in that status. An empty Bundle would tell it there are none, which is false: they may exist in VistA, and this API does not search for or return them. A 400 says the question can't be answered here. A mixed list is rejected as a whole for the same reason; returning only the served values would imply the rest are known not to exist.
 
@@ -57,13 +48,37 @@ The response depends on whether the client asked about a status.
 
 **Reads return 404,** consistent with search: an out-of-scope note is not a resource this API exposes, and 403 would wrongly suggest that different credentials could retrieve it.
 
-### Testing
+### Example queries
 
-`input/tests/` contains four invalid instances that are not built into the guide. With the FHIR validator, each one fails on exactly one rule:
+Each query below has an example response in this guide. The patient `example-patient` has three notes in scope: one UNSIGNED, one UNCOSIGNED and one SIGNED.
 
-| File | Fails on |
+**Queries that succeed (HTTP 200)**
+
+| Query | Result | Example |
+|---|---|---|
+| `DocumentReference?patient=example-patient` | All three notes. No OperationOutcome. | [search-unfiltered](Bundle-search-unfiltered.html) |
+| `…&tiuDocumentStatus=UNSIGNED,UNCOSIGNED` | The two preliminary notes. `doc-status=preliminary` returns the same. | [search-tiu-preliminary](Bundle-search-tiu-preliminary.html) |
+| `…&tiuDocumentStatus=SIGNED` | The signed note. | [search-tiu-signed](Bundle-search-tiu-signed.html) |
+| `…&tiuDocumentStatus=COMPLETED` | Same as SIGNED: COMPLETED is accepted as the VistA synonym. | [search-tiu-signed](Bundle-search-tiu-signed.html) |
+| `…&tiuDocumentStatus=http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status\|SIGNED` | Same as SIGNED, using `system\|code`. | [search-tiu-signed](Bundle-search-tiu-signed.html) |
+| `…&doc-status=final` | Same as SIGNED. | [search-tiu-signed](Bundle-search-tiu-signed.html) |
+| `DocumentReference?patient=other-patient&tiuDocumentStatus=UNCOSIGNED` | Empty Bundle. UNCOSIGNED is served, so "none" is true. | [search-served-status-none-found](Bundle-search-served-status-none-found.html) |
+
+**Queries that fail (HTTP 400, OperationOutcome)**
+
+| Query | Issue code | Why | Example |
+|---|---|---|---|
+| `…&tiuDocumentStatus=AMENDED` | `not-supported` | A real VistA TIU status that CES does not serve. Any of the other excluded statuses gets the same response. | [tiu-status-amended-not-supported](OperationOutcome-tiu-status-amended-not-supported.html) |
+| `…&tiuDocumentStatus=SIGNED,AMENDED` | `not-supported` | One unserved value rejects the whole request. The issue names only AMENDED. | [tiu-status-mixed-not-supported](OperationOutcome-tiu-status-mixed-not-supported.html) |
+| `…&doc-status=amended` | `not-supported` | A valid docStatus that CES does not serve. | [doc-status-amended-not-supported](OperationOutcome-doc-status-amended-not-supported.html) |
+| `…&tiuDocumentStatus=FINAL` | `code-invalid` | In neither TIU status code system. | [tiu-status-unknown-code](OperationOutcome-tiu-status-unknown-code.html) |
+| `…&tiuDocumentStatus=signed` | `code-invalid` | Codes are case-sensitive. Same response shape as FINAL. | [tiu-status-unknown-code](OperationOutcome-tiu-status-unknown-code.html) |
+
+**Read**
+
+| Request | Result |
 |---|---|
-| DocumentReference-invalid-unsigned-final.json | ces-docstatus-1 |
-| DocumentReference-invalid-completed-preliminary.json | ces-docstatus-2 |
-| DocumentReference-invalid-undictated.json | required binding on the VistA coding (UNDICTATED is not served) |
-| DocumentReference-invalid-vista-ces-mismatch.json | ces-docstatus-3 (CES SIGNED with VistA UNSIGNED) |
+| `GET DocumentReference/{id}` for a note in scope | 200, the note |
+| `GET DocumentReference/{id}` for an out-of-scope note (e.g. AMENDED) | 404 Not Found |
+
+Profile conformance is checked separately: `input/tests/` holds invalid DocumentReference instances, not built into the guide, each failing one profile rule under the FHIR validator.

@@ -49,3 +49,15 @@ Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&tiu
 * issue[0].details.coding[0] = CESSearchError#unknown-status "Unknown status"
 * issue[0].details.text = "The value 'FINAL' for search parameter 'tiuDocumentStatus' is not a TIU status code. Supported values: UNSIGNED, UNCOSIGNED, SIGNED."
 * issue[0].location[0] = "http.tiuDocumentStatus"
+
+
+Instance: doc-status-amended-not-supported
+InstanceOf: OperationOutcome
+Usage: #example
+Title: "Search for an unserved docStatus"
+Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&doc-status=amended. amended is a valid docStatus code, but CES serves only preliminary and final."
+* issue[0].severity = #error
+* issue[0].code = #not-supported
+* issue[0].details.coding[0] = CESSearchError#status-not-served "Status not served"
+* issue[0].details.text = "The value 'amended' for search parameter 'doc-status' is not supported. Documents with this status are not available through this API. Supported values: preliminary, final."
+* issue[0].location[0] = "http.doc-status"
