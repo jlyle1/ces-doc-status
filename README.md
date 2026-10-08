@@ -1,4 +1,4 @@
-# Lighthouse DocumentReference status for CES-provided TIU notes (FSH IG)
+# Lighthouse DocumentReference for CES-provided TIU notes (FSH IG)
 
 A draft FHIR R4 IG (US Core 6.1.0 based) defining how Lighthouse presents VistA TIU notes it obtains from CES.
 It constrains `DocumentReference.docStatus`, carries the VistA TIU status in the `alternate-codes` extension,

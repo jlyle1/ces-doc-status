@@ -1,7 +1,7 @@
 id: ces.doc.status
 canonical: http://va.gov/fhir/ces-doc-status
-name: LighthouseCESDocStatusIG
-title: Lighthouse DocumentReference Status for CES-Provided TIU Notes
+name: LighthouseCESDocumentReferenceIG
+title: Lighthouse DocumentReference for CES-Provided TIU Notes
 description: Lighthouse's contract for DocumentReferences of VistA TIU notes obtained from CES - docStatus, the VistA TIU status, status search and error responses - plus an informative description of the CES interface.
 status: draft
 version: 0.1.0
