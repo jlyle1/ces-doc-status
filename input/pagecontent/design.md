@@ -81,17 +81,4 @@ Each query below has an example response in this guide. The patient `example-pat
 | `…&tiu-document-status=SIGNED` | `code-invalid` | Not a VistA TIU status. | [tiu-unknown-code](OperationOutcome-tiu-unknown-code.html) |
 | `…&tiu-document-status=completed` | `code-invalid` | Codes are case-sensitive. Same response shape as SIGNED. | [tiu-unknown-code](OperationOutcome-tiu-unknown-code.html) |
 
-**Upstream failure (HTTP 502, 503 or 504, OperationOutcome)**
-
-| Query | Issue code | Why | Example |
-|---|---|---|---|
-| Any search or read | `transient` | An internal service failed, timed out or returned an unusable response. | [upstream-unavailable](OperationOutcome-upstream-unavailable.html) |
-
-**Read**
-
-| Request | Result |
-|---|---|
-| `GET DocumentReference/{id}` for a note in scope | 200, the note |
-| `GET DocumentReference/{id}` for an out-of-scope note (e.g. AMENDED) | 404 Not Found |
-
-Profile conformance is checked separately: `input/tests/` holds invalid DocumentReference instances, not built into the guide, each failing one profile rule under the FHIR validator.
+**Upstream failure:  HTTP 5xx**
