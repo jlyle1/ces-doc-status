@@ -67,7 +67,7 @@ Each query below has an example response in this guide. The patient `example-pat
 | `DocumentReference?patient=example-patient` | All three notes. No OperationOutcome. | [search-unfiltered](Bundle-search-unfiltered.html) |
 | `…&tiu-document-status=UNSIGNED,UNCOSIGNED` | The two preliminary notes. `doc-status=preliminary` returns the same. | [search-tiu-preliminary](Bundle-search-tiu-preliminary.html) |
 | `…&tiu-document-status=COMPLETED` | The completed note. | [search-tiu-completed](Bundle-search-tiu-completed.html) |
-| `…&tiu-document-status=http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status\|COMPLETED` | Same as COMPLETED, using `system\|code`. | [search-tiu-completed](Bundle-search-tiu-completed.html) |
+| `…&tiu-document-status=http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status|COMPLETED` | Same as COMPLETED, using `system|code`. | [search-tiu-completed](Bundle-search-tiu-completed.html) |
 | `…&doc-status=final` | Same as COMPLETED. | [search-tiu-completed](Bundle-search-tiu-completed.html) |
 | `DocumentReference?patient=other-patient&tiu-document-status=UNCOSIGNED` | Empty Bundle. UNCOSIGNED is served, so "none" is true. | [search-served-status-none-found](Bundle-search-served-status-none-found.html) |
 
