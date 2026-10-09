@@ -1,6 +1,6 @@
 // =====================================================================
 // Profile: DocumentReference for a VistA TIU note that Lighthouse obtains
-// from CES. Normative constraints live here: the two bindings and the
+// from internal services. Normative constraints live here: the two bindings and the
 // pairing invariants.
 // =====================================================================
 
@@ -9,15 +9,15 @@ Alias: $ed-conceptmap = http://hl7.org/fhir/StructureDefinition/elementdefinitio
 Alias: $USCoreDocRef = http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference
 Alias: $tiu = http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status
 
-Profile: LighthouseCESDocumentReference
+Profile: LighthouseTIUDocumentReference
 Parent: $USCoreDocRef
-Id: lighthouse-ces-docref
-Title: "Lighthouse DocumentReference (CES-provided TIU note)"
+Id: lighthouse-tiu-docref
+Title: "Lighthouse DocumentReference (VistA TIU note)"
 Description: """
-A US Core DocumentReference for a VistA TIU note that Lighthouse obtains from CES. Lighthouse serves only
+A US Core DocumentReference for a VistA TIU note that Lighthouse obtains from internal services. Lighthouse serves only
 notes whose VistA TIU status is UNSIGNED, UNCOSIGNED or COMPLETED. docStatus is limited to preliminary or
 final, and the VistA TIU status is carried on docStatus in the alternate-codes extension. Status values are
-VistA's: Lighthouse does not expose the labels CES uses for them.
+VistA's: Lighthouse does not expose labels that internal services may use for them.
 """
 * ^status = #draft
 * ^experimental = false

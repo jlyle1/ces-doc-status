@@ -10,14 +10,14 @@ Lighthouse serves only 3 of the 11 document statuses. It's clear that an "undict
 
 If Lighthouse populates `DocumentReference.relatesTo` (for example, an addendum whose parent note is AMENDED), some references will point at notes this API does not serve and will not resolve (a read returns 404). Whether `relatesTo` is populated, and if so whether the CapabilityStatement should say so, needs to be confirmed.
 
-### CES behavior Lighthouse depends on
+### Internal service behavior Lighthouse depends on
 
-The [upstream page](upstream-ces.html) assumes CES behavior that is not yet confirmed:
+The [Internal Services](internal-services.html) page assumes service behavior that is not yet confirmed:
 
-- Whether CES's `tiuDocumentStatus` filter works for UNSIGNED, UNCOSIGNED and SIGNED, and whether it accepts a comma-separated list. If it does not accept a list, Lighthouse makes one call per value and merges the results.
-- Where in CES's response the TIU status appears, and in what form, so Lighthouse can translate it.
-- Whether CES ever returns notes in other statuses. Lighthouse drops them either way, but it would be worth knowing.
-- How CES signals failure (HTTP status, empty response, partial response), so Lighthouse can tell a failure from "no documents."
+- Whether status filters can be passed to the services, including lists of values. If not, Lighthouse filters the results itself or makes one call per value.
+- Where in each service's response the TIU status appears, and in what form, so Lighthouse can translate it.
+- Whether any service returns notes in other statuses. Lighthouse drops them either way.
+- How each service signals failure (HTTP status, empty response, partial response), so Lighthouse can tell a failure from "no documents."
 
 ### alternate-codes maturity
 

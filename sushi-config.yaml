@@ -1,10 +1,10 @@
 id: ces.doc.status
 canonical: http://va.gov/fhir/ces-doc-status
-name: LighthouseCESDocumentReferenceIG
-title: Lighthouse DocumentReference for CES-Provided TIU Notes
-description: Lighthouse's contract for DocumentReferences of VistA TIU notes obtained from CES - docStatus, the VistA TIU status, status search and error responses - plus an informative description of the CES interface.
+name: LighthouseTIUDocumentReferenceIG
+title: Lighthouse DocumentReference for VistA TIU Notes
+description: Lighthouse's contract for DocumentReferences of VistA TIU notes - docStatus, the VistA TIU status, status search and error responses - plus an informative note on internal services.
 status: draft
-version: 0.1.0
+version: 0.1.1
 fhirVersion: 4.0.1
 copyrightYear: 2026+
 releaseLabel: ci-build
@@ -26,14 +26,14 @@ pages:
     title: Home
   design.md:
     title: Design
-  upstream-ces.md:
-    title: "Upstream: CES"
+  internal-services.md:
+    title: Internal Services
   open-issues.md:
     title: Open Issues
 
 menu:
   Home: index.html
   Design: design.html
-  "Upstream: CES": upstream-ces.html
+  Internal Services: internal-services.html
   Open Issues: open-issues.html
   Artifacts: artifacts.html

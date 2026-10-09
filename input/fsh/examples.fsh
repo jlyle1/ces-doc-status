@@ -29,7 +29,7 @@ RuleSet: ProgressNoteBase
 
 
 Instance: example-docref-unsigned
-InstanceOf: LighthouseCESDocumentReference
+InstanceOf: LighthouseTIUDocumentReference
 Usage: #example
 Title: "Unsigned TIU note (preliminary)"
 Description: "TIU status UNSIGNED, served as docStatus preliminary."
@@ -39,7 +39,7 @@ Description: "TIU status UNSIGNED, served as docStatus preliminary."
 
 
 Instance: example-docref-uncosigned
-InstanceOf: LighthouseCESDocumentReference
+InstanceOf: LighthouseTIUDocumentReference
 Usage: #example
 Title: "Uncosigned TIU note (preliminary)"
 Description: "TIU status UNCOSIGNED, served as docStatus preliminary."
@@ -49,7 +49,7 @@ Description: "TIU status UNCOSIGNED, served as docStatus preliminary."
 
 
 Instance: example-docref-completed
-InstanceOf: LighthouseCESDocumentReference
+InstanceOf: LighthouseTIUDocumentReference
 Usage: #example
 Title: "Completed TIU note (final)"
 Description: "TIU status COMPLETED, served as docStatus final."

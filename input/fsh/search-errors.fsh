@@ -12,7 +12,7 @@ Description: "Codes identifying specific Lighthouse search failures, carried in 
 * ^content = #complete
 * #status-not-served "Status not served" "The search filtered on a status whose documents this API does not serve. Such documents may exist in VistA; this API will not search for or return them."
 * #unknown-status "Unknown status" "The search filtered on a value that is not a code in the parameter's status code system."
-* #upstream-error "Upstream error" "Lighthouse could not obtain a usable response from an upstream source. No results are returned; the failure says nothing about whether matching documents exist."
+* #upstream-error "Upstream error" "Lighthouse could not obtain a usable response from an internal service. No results are returned; the failure says nothing about whether matching documents exist."
 
 
 Instance: tiu-amended-not-supported

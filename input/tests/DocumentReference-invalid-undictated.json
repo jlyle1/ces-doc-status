@@ -3,7 +3,7 @@
   "id": "invalid-docref-undictated",
   "meta": {
     "profile": [
-      "http://va.gov/fhir/ces-doc-status/StructureDefinition/lighthouse-ces-docref"
+      "http://va.gov/fhir/ces-doc-status/StructureDefinition/lighthouse-tiu-docref"
     ]
   },
   "status": "current",

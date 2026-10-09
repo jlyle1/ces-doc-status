@@ -11,8 +11,8 @@ Title: "VistA TIU Status"
 Description: """
 Status values for VistA TIU documents (TIU STATUS file, #8925.6), as served by Lighthouse.
 All 14 entries in the TIU STATUS file (^TIU(8925.6)), as listed on VIVIAN. Code = .01 NAME; the IEN is
-noted in each definition. CES, the upstream service, labels COMPLETED as SIGNED; Lighthouse
-reports COMPLETED. See the Upstream: CES page.
+noted in each definition. Some internal services label COMPLETED as SIGNED; Lighthouse
+reports COMPLETED. See the Internal Services page.
 """
 * ^status = #draft
 * ^experimental = false
@@ -37,7 +37,7 @@ reports COMPLETED. See the Upstream: CES page.
 ValueSet: LighthouseDocStatus
 Id: lighthouse-doc-status
 Title: "Lighthouse DocumentReference docStatus"
-Description: "The docStatus values Lighthouse returns for CES-provided TIU notes: preliminary (unsigned or uncosigned notes) and final (completed notes)."
+Description: "The docStatus values Lighthouse returns for VistA TIU notes: preliminary (unsigned or uncosigned notes) and final (completed notes)."
 * ^status = #draft
 * ^experimental = false
 * $compStatus#preliminary
@@ -163,16 +163,16 @@ Description: "All codes in the VistA TIU Status code system. Source scope of the
 
 
 // ---------------------------------------------------------------------
-// UPSTREAM ONLY. CES's status labels and the translation Lighthouse applies
+// INTERNAL ONLY. Status labels used by internal services, and the translation Lighthouse applies
 // to them. Nothing here appears in Lighthouse requests or responses.
 // ---------------------------------------------------------------------
 
-CodeSystem: CESTIUStatus
-Id: ces-tiu-status
-Title: "CES TIU Status (upstream)"
+CodeSystem: InternalTIUStatus
+Id: internal-tiu-status
+Title: "Internal TIU Status Labels"
 Description: """
-INFORMATIVE, UPSTREAM ONLY. The TIU status labels CES uses in its responses and in its tiuDocumentStatus search
-parameter. CES labels the VistA TIU status COMPLETED as SIGNED, and passes UNSIGNED and UNCOSIGNED unchanged.
+INFORMATIVE, INTERNAL ONLY. TIU status labels that internal services may use in place of VistA values.
+Some services label the VistA TIU status COMPLETED as SIGNED; UNSIGNED and UNCOSIGNED pass unchanged.
 Lighthouse translates these to VistA TIU Status; they never appear in Lighthouse requests or responses.
 """
 * ^status = #draft
@@ -181,35 +181,35 @@ Lighthouse translates these to VistA TIU Status; they never appear in Lighthouse
 * ^content = #complete
 * #UNSIGNED "Unsigned" "VistA TIU status UNSIGNED (IEN 5), unchanged."
 * #UNCOSIGNED "Uncosigned" "VistA TIU status UNCOSIGNED (IEN 6), unchanged."
-* #SIGNED "Signed" "CES's label for VistA TIU status COMPLETED (IEN 7). Same meaning."
+* #SIGNED "Signed" "Internal label for VistA TIU status COMPLETED (IEN 7). Same meaning."
 
 
-ValueSet: CESTIUStatusVS
-Id: ces-tiu-status
-Title: "CES TIU Status (upstream)"
-Description: "INFORMATIVE, UPSTREAM ONLY. All CES TIU status labels."
+ValueSet: InternalTIUStatusVS
+Id: internal-tiu-status
+Title: "Internal TIU Status Labels"
+Description: "INFORMATIVE, INTERNAL ONLY. All internal TIU status labels."
 * ^status = #draft
 * ^experimental = false
-* include codes from system CESTIUStatus
+* include codes from system InternalTIUStatus
 
 
-Instance: ces-tiu-status-to-vista-tiu-status
+Instance: internal-tiu-status-to-vista-tiu-status
 InstanceOf: ConceptMap
 Usage: #definition
-Title: "CES TIU Status to VistA TIU Status (upstream translation)"
+Title: "Internal TIU Status Labels to VistA TIU Status"
 Description: """
-INFORMATIVE, UPSTREAM ONLY. The translation Lighthouse applies to statuses in CES responses: SIGNED becomes
-COMPLETED; UNSIGNED and UNCOSIGNED are unchanged. Lighthouse applies the reverse when it builds a CES request.
+INFORMATIVE, INTERNAL ONLY. The translation Lighthouse applies to statuses from internal services: SIGNED becomes
+COMPLETED; UNSIGNED and UNCOSIGNED are unchanged. Lighthouse applies the reverse when a service expects it.
 """
-* url = "http://va.gov/fhir/ces-doc-status/ConceptMap/ces-tiu-status-to-vista-tiu-status"
-* name = "CESTIUStatusToVistATIUStatus"
-* title = "CES TIU Status to VistA TIU Status (upstream translation)"
+* url = "http://va.gov/fhir/ces-doc-status/ConceptMap/internal-tiu-status-to-vista-tiu-status"
+* name = "InternalTIUStatusToVistATIUStatus"
+* title = "Internal TIU Status Labels to VistA TIU Status"
 * status = #draft
 * experimental = false
-* purpose = "Lets Lighthouse report VistA values without depending on the labels CES uses for them."
-* sourceCanonical = Canonical(CESTIUStatusVS)
+* purpose = "Lets Lighthouse report VistA values without depending on the labels internal services use for them."
+* sourceCanonical = Canonical(InternalTIUStatusVS)
 * targetCanonical = Canonical(LighthouseServedTIUStatus)
-* group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/ces-tiu-status"
+* group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/internal-tiu-status"
 * group[0].target = "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status"
 * group[0].element[0].code = #UNSIGNED
 * group[0].element[0].display = "Unsigned"
