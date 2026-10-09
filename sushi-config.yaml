@@ -2,7 +2,7 @@ id: ces.doc.status
 canonical: http://va.gov/fhir/ces-doc-status
 name: LighthouseTIUDocumentReferenceIG
 title: Lighthouse DocumentReference for VistA TIU Notes
-description: Lighthouse's contract for DocumentReferences of VistA TIU notes - docStatus, the VistA TIU status, status search and error responses - plus an informative note on internal services.
+description: Lighthouse's contract for DocumentReferences of VistA TIU notes - docStatus, docStatus search and error responses - with VistA TIU status terminology for reference.
 status: draft
 version: 0.1.1
 fhirVersion: 4.0.1
@@ -24,6 +24,8 @@ parameters:
 pages:
   index.md:
     title: Home
+  search.md:
+    title: Search
   design.md:
     title: Design
   internal-services.md:
@@ -33,6 +35,7 @@ pages:
 
 menu:
   Home: index.html
+  Search: search.html
   Design: design.html
   Internal Services: internal-services.html
   Open Issues: open-issues.html

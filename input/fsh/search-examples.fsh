@@ -1,6 +1,6 @@
 // =====================================================================
-// Example search responses (HTTP 200) for the queries listed on the
-// Design page. Error responses are in search-errors.fsh.
+// Example search responses (HTTP 200) for the queries on the Search page.
+// Error responses are in search-errors.fsh.
 // =====================================================================
 
 RuleSet: SearchsetBase(query, total)
@@ -26,22 +26,22 @@ Description: "Response (HTTP 200) to GET DocumentReference?patient=example-patie
 * insert MatchEntry(2, example-docref-completed)
 
 
-Instance: search-tiu-preliminary
+Instance: search-preliminary
 InstanceOf: Bundle
 Usage: #example
-Title: "Search for UNSIGNED or UNCOSIGNED notes"
-Description: "Response (HTTP 200) to GET DocumentReference?patient=example-patient&tiu-document-status=UNSIGNED,UNCOSIGNED. doc-status=preliminary returns the same entries."
-* insert SearchsetBase(patient=example-patient&tiu-document-status=UNSIGNED%2CUNCOSIGNED, 2)
+Title: "Search for preliminary notes"
+Description: "Response (HTTP 200) to GET DocumentReference?patient=example-patient&docStatus=preliminary."
+* insert SearchsetBase(patient=example-patient&docStatus=preliminary, 2)
 * insert MatchEntry(0, example-docref-unsigned)
 * insert MatchEntry(1, example-docref-uncosigned)
 
 
-Instance: search-tiu-completed
+Instance: search-final
 InstanceOf: Bundle
 Usage: #example
-Title: "Search for COMPLETED notes"
-Description: "Response (HTTP 200) to GET DocumentReference?patient=example-patient&tiu-document-status=COMPLETED. tiu-document-status=http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status|COMPLETED and doc-status=final return the same entries."
-* insert SearchsetBase(patient=example-patient&tiu-document-status=COMPLETED, 1)
+Title: "Search for final notes"
+Description: "Response (HTTP 200) to GET DocumentReference?patient=example-patient&docStatus=final. docStatus=http://hl7.org/fhir/composition-status|final returns the same entries."
+* insert SearchsetBase(patient=example-patient&docStatus=final, 1)
 * insert MatchEntry(0, example-docref-completed)
 
 
@@ -49,8 +49,8 @@ Instance: search-served-status-none-found
 InstanceOf: Bundle
 Usage: #example
 Title: "Search for a served status with no matching notes"
-Description: "Response (HTTP 200) to GET DocumentReference?patient=other-patient&tiu-document-status=UNCOSIGNED, for a patient with no uncosigned notes. UNCOSIGNED is served, so an empty Bundle is a true statement that there are none. Contrast with tiu-document-status=AMENDED, which returns 400."
+Description: "Response (HTTP 200) to GET DocumentReference?patient=other-patient&docStatus=preliminary, for a patient with no preliminary notes. preliminary is served, so an empty Bundle is a true statement that there are none. Contrast with docStatus=amended, which returns 400."
 * type = #searchset
 * total = 0
 * link[0].relation = "self"
-* link[0].url = "http://example.org/fhir/DocumentReference?patient=other-patient&tiu-document-status=UNCOSIGNED"
+* link[0].url = "http://example.org/fhir/DocumentReference?patient=other-patient&docStatus=preliminary"

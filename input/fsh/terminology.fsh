@@ -1,6 +1,6 @@
 // =====================================================================
-// Terminology: VistA TIU status codes, the constrained value sets,
-// and the informative ConceptMap documenting data availability.
+// Terminology: the docStatus value set (normative), plus VistA TIU status
+// codes and ConceptMaps kept for reference (informative).
 // =====================================================================
 
 Alias: $compStatus = http://hl7.org/fhir/composition-status
@@ -9,10 +9,9 @@ CodeSystem: VistATIUStatus
 Id: vista-tiu-status
 Title: "VistA TIU Status"
 Description: """
-Status values for VistA TIU documents (TIU STATUS file, #8925.6), as served by Lighthouse.
+REFERENCE. Status values for VistA TIU documents (TIU STATUS file, #8925.6). Lighthouse does not expose these values.
 All 14 entries in the TIU STATUS file (^TIU(8925.6)), as listed on VIVIAN. Code = .01 NAME; the IEN is
-noted in each definition. Some internal services label COMPLETED as SIGNED; Lighthouse
-reports COMPLETED. See the Internal Services page.
+noted in each definition. Some internal services label COMPLETED as SIGNED. See the Internal Services page.
 """
 * ^status = #draft
 * ^experimental = false
@@ -47,7 +46,7 @@ Description: "The docStatus values Lighthouse returns for VistA TIU notes: preli
 ValueSet: LighthouseServedTIUStatus
 Id: lighthouse-served-tiu-status
 Title: "VistA TIU Status Values Served by Lighthouse"
-Description: "The VistA TIU status values for which Lighthouse returns documents. All other TIU statuses are excluded; see the TIU-to-docStatus ConceptMap."
+Description: "REFERENCE. The VistA TIU status values of the notes Lighthouse returns (as docStatus preliminary or final). All other TIU statuses are excluded; see the TIU-to-docStatus ConceptMap."
 * ^status = #draft
 * ^experimental = false
 * VistATIUStatus#UNSIGNED
@@ -60,7 +59,7 @@ InstanceOf: ConceptMap
 Usage: #definition
 Title: "VistA TIU Status to docStatus for Lighthouse: Completed, Unsigned, Uncosigned (informative)"
 Description: """
-INFORMATIVE. Documents how VistA TIU statuses relate to DocumentReference.docStatus as served by Lighthouse,
+INFORMATIVE. Documents which VistA TIU statuses lie behind each DocumentReference.docStatus value Lighthouse serves,
 and makes the eleven excluded statuses explicit (equivalence = unmatched). This map does not constrain
 instances: the profile's bindings and invariants do. It exists to explain data availability.
 """
@@ -81,14 +80,14 @@ instances: the profile's bindings and invariants do. It exists to explain data a
 * group[0].element[0].target[0].code = #preliminary
 * group[0].element[0].target[0].display = "Preliminary"
 * group[0].element[0].target[0].equivalence = #wider
-* group[0].element[0].target[0].comment = "Many-to-one with UNCOSIGNED. The TIU value is retained on docStatus via the alternate-codes extension."
+* group[0].element[0].target[0].comment = "Many-to-one with UNCOSIGNED. Lighthouse does not expose the distinction."
 
 * group[0].element[1].code = #UNCOSIGNED
 * group[0].element[1].display = "Uncosigned"
 * group[0].element[1].target[0].code = #preliminary
 * group[0].element[1].target[0].display = "Preliminary"
 * group[0].element[1].target[0].equivalence = #wider
-* group[0].element[1].target[0].comment = "Many-to-one with UNSIGNED. The TIU value is retained on docStatus via the alternate-codes extension."
+* group[0].element[1].target[0].comment = "Many-to-one with UNSIGNED. Lighthouse does not expose the distinction."
 
 * group[0].element[2].code = #COMPLETED
 * group[0].element[2].display = "Completed"
@@ -163,8 +162,8 @@ Description: "All codes in the VistA TIU Status code system. Source scope of the
 
 
 // ---------------------------------------------------------------------
-// INTERNAL ONLY. Status labels used by internal services, and the translation Lighthouse applies
-// to them. Nothing here appears in Lighthouse requests or responses.
+// REFERENCE ONLY. Status labels used inside some internal services. Lighthouse neither
+// consumes nor exposes them; internal services return docStatus to Lighthouse.
 // ---------------------------------------------------------------------
 
 CodeSystem: InternalTIUStatus
@@ -173,7 +172,7 @@ Title: "Internal TIU Status Labels"
 Description: """
 INFORMATIVE, INTERNAL ONLY. TIU status labels that internal services may use in place of VistA values.
 Some services label the VistA TIU status COMPLETED as SIGNED; UNSIGNED and UNCOSIGNED pass unchanged.
-Lighthouse translates these to VistA TIU Status; they never appear in Lighthouse requests or responses.
+Recorded for reference. Internal services return docStatus to Lighthouse, so these labels never reach Lighthouse or its clients.
 """
 * ^status = #draft
 * ^experimental = false
@@ -198,15 +197,15 @@ InstanceOf: ConceptMap
 Usage: #definition
 Title: "Internal TIU Status Labels to VistA TIU Status"
 Description: """
-INFORMATIVE, INTERNAL ONLY. The translation Lighthouse applies to statuses from internal services: SIGNED becomes
-COMPLETED; UNSIGNED and UNCOSIGNED are unchanged. Lighthouse applies the reverse when a service expects it.
+INFORMATIVE, REFERENCE ONLY. How internal TIU status labels correspond to VistA TIU statuses: SIGNED is
+COMPLETED; UNSIGNED and UNCOSIGNED are unchanged.
 """
 * url = "http://va.gov/fhir/ces-doc-status/ConceptMap/internal-tiu-status-to-vista-tiu-status"
 * name = "InternalTIUStatusToVistATIUStatus"
 * title = "Internal TIU Status Labels to VistA TIU Status"
 * status = #draft
 * experimental = false
-* purpose = "Lets Lighthouse report VistA values without depending on the labels internal services use for them."
+* purpose = "Records what the internal SIGNED label means in VistA terms."
 * sourceCanonical = Canonical(InternalTIUStatusVS)
 * targetCanonical = Canonical(LighthouseServedTIUStatus)
 * group[0].source = "http://va.gov/fhir/ces-doc-status/CodeSystem/internal-tiu-status"

@@ -1,11 +1,10 @@
 // =====================================================================
-// Examples: one per served TIU status.
-// A deliberately invalid pairing lives in input/tests/ (not built into the IG).
+// Examples: two preliminary notes and one final note.
+// A deliberately invalid instance lives in input/tests/ (not built into the IG).
 // =====================================================================
 
 Alias: $loinc = http://loinc.org
 Alias: $uscoreDocCat = http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category
-Alias: $altCodes = http://hl7.org/fhir/StructureDefinition/alternate-codes
 
 Instance: example-patient
 InstanceOf: http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient
@@ -31,28 +30,25 @@ RuleSet: ProgressNoteBase
 Instance: example-docref-unsigned
 InstanceOf: LighthouseTIUDocumentReference
 Usage: #example
-Title: "Unsigned TIU note (preliminary)"
-Description: "TIU status UNSIGNED, served as docStatus preliminary."
+Title: "Preliminary note (awaiting signature)"
+Description: "A note awaiting the author's signature (VistA TIU status UNSIGNED), served as docStatus preliminary."
 * insert ProgressNoteBase
 * docStatus = #preliminary
-* docStatus.extension[tiuStatus].valueCodeableConcept = VistATIUStatus#UNSIGNED "Unsigned"
 
 
 Instance: example-docref-uncosigned
 InstanceOf: LighthouseTIUDocumentReference
 Usage: #example
-Title: "Uncosigned TIU note (preliminary)"
-Description: "TIU status UNCOSIGNED, served as docStatus preliminary."
+Title: "Preliminary note (awaiting cosignature)"
+Description: "A note awaiting cosignature (VistA TIU status UNCOSIGNED), served as docStatus preliminary."
 * insert ProgressNoteBase
 * docStatus = #preliminary
-* docStatus.extension[tiuStatus].valueCodeableConcept = VistATIUStatus#UNCOSIGNED "Uncosigned"
 
 
 Instance: example-docref-completed
 InstanceOf: LighthouseTIUDocumentReference
 Usage: #example
-Title: "Completed TIU note (final)"
-Description: "TIU status COMPLETED, served as docStatus final."
+Title: "Final note"
+Description: "A signed note (VistA TIU status COMPLETED), served as docStatus final."
 * insert ProgressNoteBase
 * docStatus = #final
-* docStatus.extension[tiuStatus].valueCodeableConcept = VistATIUStatus#COMPLETED "Completed"

@@ -1,15 +1,14 @@
 # Lighthouse DocumentReference for VistA TIU notes (FSH IG)
 
-A draft FHIR R4 IG (US Core 6.1.0 based) defining how Lighthouse presents VistA TIU notes it obtains from internal VA services.
-It constrains `DocumentReference.docStatus`, carries the VistA TIU status in the `alternate-codes` extension,
-enforces the status pairing with invariants, defines status search and error responses, and documents the
-excluded TIU statuses and the translation of internal status labels (informative).
+A draft FHIR R4 IG (US Core 6.1.0 based) defining how Lighthouse presents VistA TIU notes it obtains from internal VA services:
+`docStatus` (preliminary | final), the `docStatus` search parameter, and the error responses for unserved or unknown values.
+VistA TIU status terminology and ConceptMaps are kept for reference.
 
-- `input/fsh/`: profile, invariants, terminology, ConceptMap, SearchParameters, CapabilityStatement, examples
-- `input/pagecontent/`: Home, Design, Internal Services and Open Issues pages
-- `input/tests/`: four deliberately invalid instances, not built into the IG; each should fail one rule
+- `input/fsh/`: profile, terminology, ConceptMaps, SearchParameter, CapabilityStatement, examples (DocumentReferences, search Bundles, OperationOutcomes)
+- `input/pagecontent/`: Home, Search, Design, Internal Services and Open Issues pages
+- `input/tests/`: one deliberately invalid instance (docStatus amended), not built into the IG; it should fail the docStatus binding
 
-Build with SUSHI (`sushi build .`) and then the IG Publisher. To check the invariants directly:
+Build with SUSHI (`sushi build .`) and then the IG Publisher. To check the test instance directly:
 
     java -jar validator_cli.jar -version 4.0.1 -ig fsh-generated/resources -ig hl7.fhir.us.core#6.1.0 input/tests/*.json
 

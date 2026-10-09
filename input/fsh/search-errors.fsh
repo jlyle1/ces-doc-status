@@ -15,59 +15,47 @@ Description: "Codes identifying specific Lighthouse search failures, carried in 
 * #upstream-error "Upstream error" "Lighthouse could not obtain a usable response from an internal service. No results are returned; the failure says nothing about whether matching documents exist."
 
 
-Instance: tiu-amended-not-supported
-InstanceOf: OperationOutcome
-Usage: #example
-Title: "Search for an unserved TIU status"
-Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&tiu-document-status=AMENDED."
-* issue[0].severity = #error
-* issue[0].code = #not-supported
-* issue[0].details.coding[0] = LighthouseSearchError#status-not-served "Status not served"
-* issue[0].details.text = "The value 'AMENDED' for search parameter 'tiu-document-status' is not supported. Documents with this status are not available through this API. Supported values: UNSIGNED, UNCOSIGNED, COMPLETED."
-* issue[0].location[0] = "http.tiu-document-status"
-
-
-Instance: tiu-mixed-not-supported
-InstanceOf: OperationOutcome
-Usage: #example
-Title: "Search for served and unserved TIU statuses together"
-Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&tiu-document-status=COMPLETED,AMENDED. The whole request is rejected; the issue names only the unserved value, so the client can resend without it."
-* issue[0].severity = #error
-* issue[0].code = #not-supported
-* issue[0].details.coding[0] = LighthouseSearchError#status-not-served "Status not served"
-* issue[0].details.text = "The value 'AMENDED' for search parameter 'tiu-document-status' is not supported. Documents with this status are not available through this API. No results were returned for any value in this request. Supported values: UNSIGNED, UNCOSIGNED, COMPLETED."
-* issue[0].location[0] = "http.tiu-document-status"
-
-
-Instance: tiu-unknown-code
-InstanceOf: OperationOutcome
-Usage: #example
-Title: "Search for a value that is not a VistA TIU status"
-Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&tiu-document-status=SIGNED. SIGNED is not a VistA TIU status."
-* issue[0].severity = #error
-* issue[0].code = #code-invalid
-* issue[0].details.coding[0] = LighthouseSearchError#unknown-status "Unknown status"
-* issue[0].details.text = "The value 'SIGNED' for search parameter 'tiu-document-status' is not a VistA TIU status code. Supported values: UNSIGNED, UNCOSIGNED, COMPLETED."
-* issue[0].location[0] = "http.tiu-document-status"
-
-
-Instance: doc-status-amended-not-supported
+Instance: docstatus-amended-not-supported
 InstanceOf: OperationOutcome
 Usage: #example
 Title: "Search for an unserved docStatus"
-Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&doc-status=amended. amended is a valid docStatus code, but Lighthouse serves only preliminary and final."
+Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&docStatus=amended. amended is a valid docStatus code, but Lighthouse serves only preliminary and final. docStatus=entered-in-error gets the same response."
 * issue[0].severity = #error
 * issue[0].code = #not-supported
 * issue[0].details.coding[0] = LighthouseSearchError#status-not-served "Status not served"
-* issue[0].details.text = "The value 'amended' for search parameter 'doc-status' is not supported. Documents with this status are not available through this API. Supported values: preliminary, final."
-* issue[0].location[0] = "http.doc-status"
+* issue[0].details.text = "The value 'amended' for search parameter 'docStatus' is not supported. Documents with this status are not available through this API. Supported values: preliminary, final."
+* issue[0].location[0] = "http.docStatus"
+
+
+Instance: docstatus-mixed-not-supported
+InstanceOf: OperationOutcome
+Usage: #example
+Title: "Search for served and unserved docStatus values together"
+Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&docStatus=final,amended. The whole request is rejected; the issue names only the unserved value, so the client can resend without it."
+* issue[0].severity = #error
+* issue[0].code = #not-supported
+* issue[0].details.coding[0] = LighthouseSearchError#status-not-served "Status not served"
+* issue[0].details.text = "The value 'amended' for search parameter 'docStatus' is not supported. Documents with this status are not available through this API. No results were returned for any value in this request. Supported values: preliminary, final."
+* issue[0].location[0] = "http.docStatus"
+
+
+Instance: docstatus-unknown-code
+InstanceOf: OperationOutcome
+Usage: #example
+Title: "Search for a value that is not a docStatus code"
+Description: "Response body (HTTP 400) for GET DocumentReference?patient=...&docStatus=signed. signed is not a code in http://hl7.org/fhir/composition-status."
+* issue[0].severity = #error
+* issue[0].code = #code-invalid
+* issue[0].details.coding[0] = LighthouseSearchError#unknown-status "Unknown status"
+* issue[0].details.text = "The value 'signed' for search parameter 'docStatus' is not a docStatus code. Supported values: preliminary, final."
+* issue[0].location[0] = "http.docStatus"
 
 
 Instance: upstream-unavailable
 InstanceOf: OperationOutcome
 Usage: #example
 Title: "Upstream failure"
-Description: "Response body (HTTP 502, 503 or 504) for any DocumentReference request when the upstream source fails, times out or returns an unusable response."
+Description: "Response body (HTTP 502, 503 or 504) for any DocumentReference request when an internal service fails, times out or returns an unusable response."
 * issue[0].severity = #error
 * issue[0].code = #transient
 * issue[0].details.coding[0] = LighthouseSearchError#upstream-error "Upstream error"

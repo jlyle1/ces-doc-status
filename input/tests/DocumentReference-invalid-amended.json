@@ -1,6 +1,6 @@
 {
   "resourceType": "DocumentReference",
-  "id": "invalid-docref-undictated",
+  "id": "invalid-docref-amended",
   "meta": {
     "profile": [
       "http://va.gov/fhir/ces-doc-status/StructureDefinition/lighthouse-tiu-docref"
@@ -39,21 +39,5 @@
       }
     }
   ],
-  "docStatus": "preliminary",
-  "_docStatus": {
-    "extension": [
-      {
-        "url": "http://hl7.org/fhir/StructureDefinition/alternate-codes",
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "code": "UNDICTATED",
-              "system": "http://va.gov/fhir/ces-doc-status/CodeSystem/vista-tiu-status",
-              "display": "Undictated"
-            }
-          ]
-        }
-      }
-    ]
-  }
+  "docStatus": "amended"
 }
